@@ -1,11 +1,9 @@
 import { Global } from '@emotion/react';
 
-import { darkTheme } from 'core/styles/themes';
-import { lightTheme } from 'core/styles/themes/light';
-
 import { baseStyles } from './base';
 import { propertiesStyles } from './properties';
 import { stylesReset } from './reset';
+import { darkTheme, lightTheme } from './themes';
 
 export const GlobalStyles = () => (
   <>

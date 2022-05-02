@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 export const darkTheme = css`
-  body[data-theme='dark'] {
+  [data-theme='dark'] {
     --grey-95: hsla(220, 26%, 15%, 1);
     --grey-90: hsla(220, 26%, 18%, 1);
     --grey-85: hsla(221, 25%, 22%, 1);

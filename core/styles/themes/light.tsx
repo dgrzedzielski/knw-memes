@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 export const lightTheme = css`
-  body[data-theme='light'] {
+  [data-theme='light'] {
     --white: hsl(0, 0%, 100%);
     --grey-5: hsl(204, 15%, 94%);
     --grey-10: hsl(198, 16%, 84%);

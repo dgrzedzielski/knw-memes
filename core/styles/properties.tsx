@@ -8,6 +8,7 @@ export const propertiesStyles = css`
       avenir, helvetica neue, helvetica, Ubuntu, tahoma, roboto, noto, arial,
       sans-serif;
 
+    --font-weight-headings: 600;
     --font-size-heading-1: clamp(2.67rem, 2.07rem + 3vw, 4.21rem);
     --font-size-heading-2: clamp(2.14rem, 1.74rem + 1.99vw, 3.16rem);
     --font-size-heading-3: clamp(1.71rem, 1.45rem + 1.29vw, 2.37rem);

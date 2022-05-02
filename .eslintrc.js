@@ -6,6 +6,7 @@ module.exports = {
     'plugin:import/warnings',
     'plugin:import/typescript',
     'plugin:prettier/recommended',
+    'plugin:storybook/recommended',
   ],
   plugins: ['unused-imports'],
   rules: {
@@ -16,6 +17,15 @@ module.exports = {
     'react/require-default-props': 'off', // we're using typescript, don't need that
     'react/react-in-jsx-scope': 'off', // from react 17 it's not needed anymore
     'react/jsx-props-no-spreading': 'off', // need it sometimes, for example for _app.tsx next
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector:
+          "ImportDeclaration[source.value='react'][specifiers.0.type='ImportDefaultSpecifier']",
+        message:
+          "Default React import not allowed. Use import * as React from 'react' instead.",
+      },
+    ],
     'react/function-component-definition': [
       2,
       { namedComponents: 'arrow-function' },
@@ -72,6 +82,13 @@ module.exports = {
       rules: {
         '@typescript-eslint/comma-dangle': 'off', // prettier will handle this
         '@typescript-eslint/no-unused-vars': 'warn',
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            devDependencies: ['**/*.stories.*', '**/.storybook/**/*.*'],
+            peerDependencies: true,
+          },
+        ],
         '@typescript-eslint/ban-types': [
           'warn',
           {
