@@ -4,7 +4,16 @@ import * as React from 'react';
 
 import { Heading } from 'core/components/atoms/typography';
 
+import { httpClient } from '../core/utils/http-client';
+
 const Home: NextPage = () => {
+  React.useEffect(() => {
+    httpClient
+      .get('/api/posts')
+      .then((data) => console.log(data))
+      .catch((e) => console.log(e));
+  }, []);
+
   return (
     <div>
       <Heading level={1}>Heading 1</Heading>

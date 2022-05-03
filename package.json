@@ -12,11 +12,15 @@
     "lint:fix": "eslint --fix --cache '**/*.{js,jsx,ts,tsx}'",
     "format": "prettier --write '**/*.{json,css,scss,html,md}'",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
+    "@prisma/client": "^3.13.0",
+    "@supabase/supabase-js": "^1.35.2",
+    "axios": "^0.27.2",
     "next": "12.1.4",
     "react": "18.0.0",
     "react-dom": "18.0.0"
@@ -51,6 +55,7 @@
     "husky": "^7.0.0",
     "lint-staged": "^12.3.7",
     "prettier": "^2.6.1",
+    "prisma": "^3.13.0",
     "storybook-dark-mode": "^1.1.0",
     "typescript": "4.6.3",
     "webpack-merge": "^5.8.0"
@@ -61,6 +66,9 @@
     ],
     "**/*.{js,jsx,ts,tsx}": [
       "npm run lint:fix"
+    ],
+    "**/*.prisma": [
+      "npx prisma format"
     ]
   }
 }
