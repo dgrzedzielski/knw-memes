@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { prisma } from 'core/utils/prisma-client';
-import { CreatePostPayload } from 'modules/posts/types/api';
+import { CreatePostPayload } from 'modules/posts/api/types';
 
 const getPosts = async () => {
   try {

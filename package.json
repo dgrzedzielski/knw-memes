@@ -11,7 +11,7 @@
     "prepare": "husky install",
     "lint:fix": "eslint --fix --cache '**/*.{js,jsx,ts,tsx}'",
     "format": "prettier --write '**/*.{json,css,scss,html,md}'",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook",
     "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
@@ -55,6 +55,8 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^7.0.0",
     "lint-staged": "^12.3.7",
+    "msw": "^0.39.2",
+    "msw-storybook-addon": "^1.6.3",
     "prettier": "^2.6.1",
     "prisma": "^3.13.0",
     "storybook-dark-mode": "^1.1.0",
@@ -71,5 +73,8 @@
     "**/*.prisma": [
       "npx prisma format"
     ]
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

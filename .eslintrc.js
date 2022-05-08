@@ -81,14 +81,8 @@ module.exports = {
       },
       rules: {
         '@typescript-eslint/comma-dangle': 'off', // prettier will handle this
+        'import/no-extraneous-dependencies': 'off', // it's not detecting dev deps properly
         '@typescript-eslint/no-unused-vars': 'warn',
-        'import/no-extraneous-dependencies': [
-          'error',
-          {
-            devDependencies: ['**/*.stories.*', '**/.storybook/**/*.*'],
-            peerDependencies: true,
-          },
-        ],
         '@typescript-eslint/ban-types': [
           'warn',
           {

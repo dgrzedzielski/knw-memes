@@ -1,31 +1,16 @@
 import * as React from 'react';
-import { addDecorator } from '@storybook/react';
 import { GlobalStyles } from '../core/styles';
-import { addons } from '@storybook/addons';
-import { DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
+import { initialize as initializeMSW, mswDecorator } from 'msw-storybook-addon';
+import { ThemeWrapper } from './theme-wrapper';
 
-const channel = addons.getChannel();
+const themeDecorator = story => <ThemeWrapper>
+  <GlobalStyles />
+  {story()}
+</ThemeWrapper>
 
-function ThemeWrapper(props) {
-  const updateTheme = React.useCallback(
-    (isDark) => {
-      document.body.dataset.theme = isDark ? 'dark' : 'light';
-    },
-    [],
-  );
+initializeMSW();
 
-  React.useEffect(() => {
-    channel.on(DARK_MODE_EVENT_NAME, updateTheme);
-    return () => channel.off(DARK_MODE_EVENT_NAME, updateTheme);
-  }, [channel, updateTheme]);
-
-
-  return (
-    <>
-      {props.children}
-    </>
-  );
-}
+export const decorators = [mswDecorator, themeDecorator];
 
 
 export const parameters = {
@@ -37,8 +22,3 @@ export const parameters = {
     },
   },
 }
-
-addDecorator(story => <ThemeWrapper>
-  <GlobalStyles />
-  {story()}
-</ThemeWrapper>);

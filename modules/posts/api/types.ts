@@ -1,4 +1,4 @@
-import { Post } from './base';
+import { Post } from '../types';
 
 export interface PostsListResponse {
   posts: Post[];
