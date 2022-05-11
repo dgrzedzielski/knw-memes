@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { getRem } from 'core/styles/utils';
+import { getRem } from '~/styles/utils';
 
 export const propertiesStyles = css`
   :root {

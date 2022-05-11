@@ -1,4 +1,4 @@
-import { httpClient } from 'core/utils/http-client';
+import { httpClient } from '~/utils/http-client';
 
 import { PostsListResponse } from './types';
 

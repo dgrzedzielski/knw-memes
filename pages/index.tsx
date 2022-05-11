@@ -2,9 +2,8 @@ import type { NextPage } from 'next';
 
 import * as React from 'react';
 
-import { Heading } from 'core/components/atoms/typography';
-
-import { httpClient } from '../core/utils/http-client';
+import { Heading } from '~/components/atoms/typography';
+import { httpClient } from '~/utils/http-client';
 
 const Home: NextPage = () => {
   React.useEffect(() => {

@@ -24,7 +24,7 @@ module.exports = {
           "ImportDeclaration[source.value='react'][specifiers.0.type='ImportDefaultSpecifier']",
         message:
           "Default React import not allowed. Use import * as React from 'react' instead.",
-      },
+      }, // https://twitter.com/dan_abramov/status/1308739731551858689
     ],
     'react/function-component-definition': [
       2,
@@ -66,8 +66,24 @@ module.exports = {
             group: 'external',
             position: 'before',
           },
+          {
+            pattern: '~/**',
+            group: 'internal',
+            position: 'before',
+          },
         ],
         pathGroupsExcludedImportTypes: ['builtin'],
+      },
+    ],
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: [
+          {
+            group: [`core/*`, '**/../core/*'],
+            message: 'Use absolute import for core using ~ alias',
+          },
+        ],
       },
     ],
   },
