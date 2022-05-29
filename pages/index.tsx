@@ -2,27 +2,27 @@ import type { NextPage } from 'next';
 
 import * as React from 'react';
 
-import { Heading } from '~/components/atoms/typography';
-import { httpClient } from '~/utils/http-client';
+import { usePosts } from 'modules/posts/hooks/use-posts';
 
 const Home: NextPage = () => {
-  React.useEffect(() => {
-    httpClient
-      .get('/api/posts')
-      .then((data) => console.log(data))
-      .catch((e) => console.log(e));
-  }, []);
+  const { page, setPage, status, data } = usePosts();
 
-  return (
-    <div>
-      <Heading level={1}>Heading 1</Heading>
-      <Heading level={2}>Heading 2</Heading>
-      <Heading level={3}>Heading 3</Heading>
-      <Heading level={4}>Heading 4</Heading>
-      <Heading level={5}>Heading 5</Heading>
-      <Heading level={6}>Heading 6</Heading>
-    </div>
-  );
+  if (status === 'success') {
+    return (
+      <div>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+        <button type="button" onClick={() => setPage((prev) => prev - 1)}>
+          --
+        </button>
+        <span>{page}</span>
+        <button type="button" onClick={() => setPage((prev) => prev + 1)}>
+          ++
+        </button>
+      </div>
+    );
+  }
+
+  return <div>Loading...</div>;
 };
 
 export default Home;
