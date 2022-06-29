@@ -23,9 +23,9 @@ const PostPage = () => {
 
   return (
     <StyledContainer>
-      <Link href={`${+id - 1}`}>Prev</Link>
+      <Link href={`${+id! - 1}`}>Prev</Link>
       <SinglePost post={data.post} />
-      <Link href={`${+id + 1}`}>Next</Link>
+      <Link href={`${+id! + 1}`}>Next</Link>
     </StyledContainer>
   );
 };
