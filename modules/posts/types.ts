@@ -8,3 +8,9 @@ export interface Post {
   commentsCount: number;
   likesCount: number;
 }
+
+export interface Comment {
+  id: number;
+  author: string;
+  body: string;
+}

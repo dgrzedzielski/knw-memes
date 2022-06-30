@@ -1,8 +1,33 @@
 import { rest } from 'msw';
 
-import { PostsListResponse } from 'modules/posts/api/types';
+import {
+  PostsListResponse,
+  CommentsListsResponse,
+} from 'modules/posts/api/types';
 
-import { Post } from '../types';
+import { Post, Comment } from '../types';
+
+const mockedComments: { [key: string]: Comment[] } = {
+  1: [
+    {
+      id: 101,
+      author: 'Author1',
+      body: 'Comment1, lorem ipsum dolor sit amet',
+    },
+    {
+      id: 102,
+      author: 'Author2',
+      body: 'Comment2, amet dolor lorem sit ipsum',
+    },
+  ],
+  2: [
+    {
+      id: 103,
+      author: 'Author1',
+      body: 'Comment3, czasem słońce czasem deszcz',
+    },
+  ],
+};
 
 const mockedPosts: Post[] = [
   {
@@ -67,6 +92,58 @@ export const postsHandlers = [
     (req, res, ctx) => {
       const post = mockedPosts.find((p) => p.id === req.params.id);
       return res(ctx.json({ post }));
+    }
+  ),
+];
+
+export const commentsHandlers = [
+  rest.get<never, { postId: string }, CommentsListsResponse>(
+    '/api/posts/:postId/comments',
+    (req, res, ctx) => {
+      const { postId } = req.params;
+      const comments = mockedComments[postId] || [];
+      return res(
+        ctx.json({
+          comments,
+          count: comments.length,
+        })
+      );
+    }
+  ),
+
+  rest.post<never, { postId: string }, Comment>(
+    '/api/posts/:postId/comments',
+    (req, res, ctx) => {
+      const { postId } = req.params;
+      const { author, body } = req.body;
+
+      const postIndex = mockedPosts.findIndex(({ id }) => postId === id);
+
+      if (!postIndex) {
+        return res(ctx.status(404));
+      }
+
+      if (!author || !body) {
+        return res(ctx.status(400));
+      }
+
+      const postComments = mockedComments[postId] || [];
+      const newCommentId = postComments[postComments.length - 1]
+        ? postComments[postComments.length - 1].id + 1
+        : 0;
+
+      mockedComments[postId] = [
+        ...postComments,
+        { author, body, id: newCommentId },
+      ];
+
+      return res(
+        ctx.json({
+          id: newCommentId,
+          author,
+          body,
+        })
+      );
     }
   ),
 ];
