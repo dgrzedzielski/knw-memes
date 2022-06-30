@@ -5,26 +5,42 @@ import {
   CommentsListsResponse,
 } from 'modules/posts/api/types';
 
-import { Post, Comment } from '../types';
+import { Post } from '../types';
+import { Comment } from '../../comments/types';
 
 const mockedComments: { [key: string]: Comment[] } = {
   1: [
     {
-      id: 101,
-      author: 'Author1',
+      id: '101',
+      author: {
+        name: 'Author1',
+        avatarUrl:
+          'https://m.media-amazon.com/images/I/51ZjBEW+qNL._AC_SX466_.jpg',
+      },
       body: 'Comment1, lorem ipsum dolor sit amet',
+      createdAt: new Date().toISOString(),
     },
     {
-      id: 102,
-      author: 'Author2',
+      id: '102',
+      author: {
+        name: 'Author2',
+        avatarUrl:
+          'https://m.media-amazon.com/images/I/51ZjBEW+qNL._AC_SX466_.jpg',
+      },
       body: 'Comment2, amet dolor lorem sit ipsum',
+      createdAt: new Date().toISOString(),
     },
   ],
   2: [
     {
-      id: 103,
-      author: 'Author1',
+      id: '103',
+      author: {
+        name: 'Author3',
+        avatarUrl:
+          'https://m.media-amazon.com/images/I/51ZjBEW+qNL._AC_SX466_.jpg',
+      },
       body: 'Comment3, czasem słońce czasem deszcz',
+      createdAt: new Date().toISOString(),
     },
   ],
 };
@@ -130,11 +146,12 @@ export const commentsHandlers = [
       const postComments = mockedComments[postId] || [];
       const newCommentId = postComments[postComments.length - 1]
         ? postComments[postComments.length - 1].id + 1
-        : 0;
+        : '0';
+      const createdAt = new Date().toISOString();
 
       mockedComments[postId] = [
         ...postComments,
-        { author, body, id: newCommentId },
+        { author, body, id: newCommentId, createdAt },
       ];
 
       return res(
@@ -142,6 +159,7 @@ export const commentsHandlers = [
           id: newCommentId,
           author,
           body,
+          createdAt,
         })
       );
     }

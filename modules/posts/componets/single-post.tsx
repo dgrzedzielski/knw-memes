@@ -5,6 +5,7 @@ import { Heading, Text } from '~/components/atoms/typography';
 import { UserLink } from '~/components/atoms/user-link';
 
 import { Post } from '../types';
+import { useComments } from '../../comments/hooks/use-comments';
 
 const FlexDiv = styled.div`
   display: flex;
@@ -23,6 +24,8 @@ const PostContainer = styled.div`
 `;
 
 export const SinglePost = ({ post }: { post: Post }) => {
+  const { status, data } = useComments(post.id);
+
   return (
     <PostContainer>
       <Heading level={6}>{post.title}</Heading>
