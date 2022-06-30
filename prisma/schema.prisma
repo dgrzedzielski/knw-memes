@@ -17,9 +17,21 @@ model User {
   description String?    @db.VarChar(255)
   post        Post[]
   reaction    Reaction[]
+  Comment     Comment[]
 }
 
 model Post {
+  id          String     @id @default(uuid())
+  createdAt   DateTime   @default(now()) @db.Timestamp(6)
+  title       String?    @db.VarChar(255)
+  description String?    @db.VarChar(255)
+  imageUrl    String     @db.VarChar(255)
+  authorId    String
+  author      User       @relation(fields: [authorId], references: [id])
+  reactions   Reaction[]
+}
+
+model Comment {
   id          String     @id @default(uuid())
   createdAt   DateTime   @default(now()) @db.Timestamp(6)
   title       String?    @db.VarChar(255)
@@ -38,4 +50,6 @@ model Reaction {
   post      Post     @relation(fields: [postId], references: [id])
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])
+  Comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String?
 }

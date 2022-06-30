@@ -1,8 +1,21 @@
 import { rest } from 'msw';
 
-import { PostsListResponse } from 'modules/posts/api/types';
+import {
+  CommentsListsResponse,
+  PostsListResponse,
+} from 'modules/posts/api/types';
 
-import { Post } from '../types';
+import { Comment, Post } from '../types';
+
+const mockedComments: { [key: string]: Comment[] } = {
+  1: [
+    {
+      id: 101,
+      author: 'Steven Segal',
+      body: "You can't into karate anyway!",
+    },
+  ],
+};
 
 const mockedPosts: Post[] = [
   {
@@ -12,7 +25,6 @@ const mockedPosts: Post[] = [
     description: 'Lorem ipsum dolor sit amet',
     imageUrl: 'https://via.placeholder.com/150',
     title: 'Lorem ipsum',
-    commentsCount: 0,
     likesCount: -2,
   },
   {
@@ -23,7 +35,6 @@ const mockedPosts: Post[] = [
     imageUrl:
       'https://user-images.githubusercontent.com/44877084/171571433-29b168f2-4549-472e-a1e2-b71900b5e98c.jpg',
     title: 'QAs not like other developers',
-    commentsCount: 0,
     likesCount: -3,
   },
   {
@@ -36,7 +47,6 @@ const mockedPosts: Post[] = [
       '“I am harassed, humiliated, threatened, every single day,” she said, adding that “all I want” is to “get my voice back”.',
     imageUrl: 'https://img-9gag-fun.9cache.com/photo/avADGrE_700bwp.webp',
     title: 'Amber Cry',
-    commentsCount: 3,
     likesCount: 2,
   },
   {
@@ -47,7 +57,6 @@ const mockedPosts: Post[] = [
     imageUrl:
       'https://www.wykop.pl/cdn/c3201142/comment_1653926067Yjms9z8kalr1PhTz6N6cBS.jpg',
     title: 'Polish Pope',
-    commentsCount: 2,
     likesCount: -2,
   },
 ];
@@ -67,6 +76,58 @@ export const postsHandlers = [
     (req, res, ctx) => {
       const post = mockedPosts.find((p) => p.id === req.params.id);
       return res(ctx.json({ post }));
+    }
+  ),
+];
+
+export const commentsHandlers = [
+  rest.get<never, { postId: string }, CommentsListsResponse>(
+    '/api/posts/:postId/comments',
+    (req, res, ctx) => {
+      const { postId } = req.params;
+      const comments = mockedComments[postId] || [];
+      return res(
+        ctx.json({
+          comments,
+          count: comments.length,
+        })
+      );
+    }
+  ),
+
+  rest.post<never, { postId: string }, Comment>(
+    '/api/posts/:postId/comments',
+    (req, res, ctx) => {
+      const { postId } = req.params;
+      const { author, body } = req.body;
+
+      const postIndex = mockedPosts.findIndex(({ id }) => postId === id);
+
+      if (!postIndex) {
+        return res(ctx.status(404));
+      }
+
+      if (!author || !body) {
+        return res(ctx.status(400));
+      }
+
+      const postComments = mockedComments[postId] || [];
+      const newCommentId = postComments[postComments.length - 1]
+        ? postComments[postComments.length - 1].id + 1
+        : 0;
+
+      mockedComments[postId] = [
+        ...postComments,
+        { author, body, id: newCommentId },
+      ];
+
+      return res(
+        ctx.json({
+          id: newCommentId,
+          author,
+          body,
+        })
+      );
     }
   ),
 ];

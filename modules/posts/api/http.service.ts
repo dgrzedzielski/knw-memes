@@ -1,7 +1,7 @@
 import { PaginationParams } from '~/types';
 import { httpClient } from '~/utils/http-client';
 
-import { Post } from '../types';
+import { AddCommentPayload, Comment, Post } from '../types';
 
 import { PostsListResponse } from './types';
 
@@ -15,6 +15,26 @@ export const getPosts = async (params: PaginationParams) => {
 
 export const getPost = async (postId: string) => {
   const { data } = await httpClient.get<{ post: Post }>(`/api/posts/${postId}`);
+
+  return data;
+};
+
+export const getComments = async (postId: string) => {
+  const { data } = await httpClient.get<{ comments: Comment[]; count: number }>(
+    `/api/posts/${postId}/comments`
+  );
+
+  return data;
+};
+
+export const addComment = async ({
+  postId,
+  ...commentData
+}: AddCommentPayload) => {
+  const { data } = await httpClient.post<Comment>(
+    `/api/posts/${postId}/comments`,
+    { ...commentData }
+  );
 
   return data;
 };

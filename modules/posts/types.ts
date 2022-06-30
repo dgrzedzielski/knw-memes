@@ -5,6 +5,15 @@ export interface Post {
   title: string;
   description: string;
   imageUrl: string;
-  commentsCount: number;
   likesCount: number;
+}
+
+export interface Comment {
+  id: number;
+  author: string;
+  body: string;
+}
+
+export interface AddCommentPayload extends Omit<Comment, 'id'> {
+  postId: string;
 }

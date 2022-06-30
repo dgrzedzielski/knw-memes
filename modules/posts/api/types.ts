@@ -1,4 +1,4 @@
-import { Post } from '../types';
+import { Comment, Post } from '../types';
 
 export interface PostsListResponse {
   posts: Post[];
@@ -10,4 +10,9 @@ export interface CreatePostPayload {
   description: string;
   imageUrl: string;
   authorId: string;
+}
+
+export interface CommentsListsResponse {
+  comments: Comment[];
+  count: number;
 }
