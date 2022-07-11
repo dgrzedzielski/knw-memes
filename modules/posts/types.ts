@@ -6,5 +6,16 @@ export interface Post {
   description: string;
   imageUrl: string;
   commentsCount: number;
-  likesCount: number;
+  likesCount?: number;
+}
+
+export interface Pagination {
+  currentId: string;
+  previousId: string;
+  nextId: string;
+}
+
+export interface PostResponse {
+  post: Post;
+  pagination: Pagination;
 }

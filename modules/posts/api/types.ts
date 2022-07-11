@@ -1,4 +1,6 @@
-import { Post, Comment } from '../types';
+import { Comment } from 'modules/comments/types';
+
+import { Post } from '../types';
 
 export interface PostsListResponse {
   posts: Post[];
@@ -9,7 +11,8 @@ export interface CreatePostPayload {
   title: string;
   description: string;
   imageUrl: string;
-  authorId: string;
+  // authorId is optional as long as authentication is not ready
+  authorId?: string;
 }
 
 export interface CommentsListsResponse {
