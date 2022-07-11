@@ -11,31 +11,77 @@ datasource db {
 }
 
 model User {
-  id          String     @id @default(uuid())
-  name        String     @unique @db.VarChar(255)
-  email       String     @unique @db.VarChar(255)
-  description String?    @db.VarChar(255)
-  post        Post[]
-  reaction    Reaction[]
+  id                String            @id @default(cuid())
+  email             String            @unique
+  name              String            @unique
+  avatar            String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  password          Password?
+  posts             Post[]
+  postsReactions    PostReaction[]
+  comments          Comment[]
+  commentsReactions CommentReaction[]
+}
+
+model Password {
+  hash   String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+}
+
+model Tag {
+  id    String @id @default(uuid())
+  name  String @unique
+  posts Post[]
 }
 
 model Post {
-  id          String     @id @default(uuid())
-  createdAt   DateTime   @default(now()) @db.Timestamp(6)
-  title       String?    @db.VarChar(255)
-  description String?    @db.VarChar(255)
-  imageUrl    String     @db.VarChar(255)
-  authorId    String
-  author      User       @relation(fields: [authorId], references: [id])
-  reactions   Reaction[]
+  id          String         @id @default(uuid())
+  title       String
+  description String?
+  imageUrl    String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  author      User?          @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId    String?
+  tags        Tag[]
+  reactions   PostReaction[]
+  comments    Comment[]
 }
 
-model Reaction {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  score     Int
-  postId    String
-  post      Post     @relation(fields: [postId], references: [id])
-  authorId  String
+model PostReaction {
+  value     Int
   author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([authorId, postId])
+}
+
+model Comment {
+  id        String            @id @default(uuid())
+  content   String
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  author    User?             @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId  String?
+  post      Post              @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId    String
+  reactions CommentReaction[]
+}
+
+model CommentReaction {
+  value     Int
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  commentId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([authorId, commentId])
 }
