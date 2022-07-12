@@ -17,14 +17,14 @@ const buildFilePath = (contentType: string) => {
 
 const uploadImage = async (image: any, res: NextApiResponse) => {
   if (!image || typeof image !== 'string') {
-    return res.status(500).json({ message: 'No image provided' });
+    return res.status(400).json({ message: 'No image provided' });
   }
 
   const contentType = image.match(/data:(.*);base64/)?.[1];
   const base64FileData = image.split('base64,')?.[1];
 
   if (!contentType || !base64FileData) {
-    return res.status(500).json({ message: 'Image data not valid' });
+    return res.status(422).json({ message: 'Image data not valid' });
   }
 
   const path = buildFilePath(contentType);
@@ -37,7 +37,7 @@ const uploadImage = async (image: any, res: NextApiResponse) => {
     });
 
   if (uploadError || !data) {
-    return res.status(500).json({ message: 'No image provided' });
+    return res.status(500).json({ message: 'Failed to save image' });
   }
 
   return `${getRequiredEnv('NEXT_SUPABASE_URL')}/storage/v1/object/public/${
