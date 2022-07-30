@@ -4,31 +4,40 @@ import { PostsListResponse } from 'modules/posts/api/types';
 
 import { Post } from '../types';
 
-const mockedPosts: Post[] = [
+const mockedPosts: Array<Post> = [
   {
     id: '1',
-    authorNick: '1234',
+    author: {
+      name: 'Łyczko w D',
+      avatar: 'https://via.placeholder.com/150',
+    },
     createdAt: new Date().toISOString(),
     description: 'Lorem ipsum dolor sit amet',
     imageUrl: 'https://via.placeholder.com/150',
     title: 'Lorem ipsum',
     commentsCount: 0,
-    likesCount: -2,
+    score: -2,
   },
   {
     id: '2',
-    authorNick: 'Krystian Chryń',
+    author: {
+      name: 'Krystian Chryń',
+      avatar: 'https://via.placeholder.com/150',
+    },
     createdAt: '2022-05-27T11:06:49.420Z0',
     description: 'Why qa exist?',
     imageUrl:
       'https://user-images.githubusercontent.com/44877084/171571433-29b168f2-4549-472e-a1e2-b71900b5e98c.jpg',
     title: 'QAs not like other developers',
     commentsCount: 0,
-    likesCount: -3,
+    score: -3,
   },
   {
     id: '3',
-    authorNick: 'Paul Kowaszenko',
+    author: {
+      name: 'Słońce po burzy',
+      avatar: 'https://via.placeholder.com/150',
+    },
     createdAt: '2022-05-27T11:06:49.420Z0',
     description:
       'Amber Heard broke down in tears as she returned to the witness stand in her rebuttal against Johnny Depp after his side rested their case on Thursday.\n' +
@@ -37,18 +46,21 @@ const mockedPosts: Post[] = [
     imageUrl: 'https://img-9gag-fun.9cache.com/photo/avADGrE_700bwp.webp',
     title: 'Amber Cry',
     commentsCount: 3,
-    likesCount: 2,
+    score: 2,
   },
   {
     id: '4',
-    authorNick: 'Jan Paulo',
+    author: {
+      name: 'Konrad BezPodwyżki',
+      avatar: 'https://via.placeholder.com/150',
+    },
     createdAt: '2022-05-27T11:06:49.420Z0',
     description: 'Pope Sanwitch motherfuckers',
     imageUrl:
       'https://www.wykop.pl/cdn/c3201142/comment_1653926067Yjms9z8kalr1PhTz6N6cBS.jpg',
     title: 'Polish Pope',
     commentsCount: 2,
-    likesCount: -2,
+    score: -2,
   },
 ];
 

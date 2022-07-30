@@ -1,10 +1,13 @@
 export interface Post {
   id: string;
   createdAt: string;
-  authorNick: string;
+  author: {
+    name: string;
+    avatar: string;
+  };
   title: string;
   description: string;
   imageUrl: string;
   commentsCount: number;
-  likesCount: number;
+  score: number;
 }
