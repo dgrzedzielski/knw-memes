@@ -27,7 +27,7 @@ export const SinglePost = ({ post }: { post: Post }) => {
     <PostContainer>
       <Heading level={6}>{post.title}</Heading>
       <FlexDiv>
-        <UserLink>{post.authorNick}</UserLink>
+        <UserLink>{post.author.name}</UserLink>
         <span>{post.createdAt}</span>
         <FlexDiv>
           <span>{post.commentsCount}</span>
